@@ -1,0 +1,29 @@
+name: nextrelease
+description: Release the next version with an automated PR
+branding:
+  icon: package
+  color: white
+inputs:
+  tag_prefix:
+    description: The prefix that is on SemVer tags (i.e. "v" or nothing "")
+    default: 'v'
+  next_branch:
+    description: The name for your "nextrelease" branch which is used for the PR
+    default: nextrelease
+  publish_cmd:
+    description: A shell command to run after tagging a release
+    default: ""
+  prepare_cmd:
+    description: Filenames + patterns for updating the version number (ex. `filename="version = {version}"` where `{version}` is replaced automatically)
+  github_token:
+    description: A GitHub token that can create and modify releases
+    required: true
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    TAG_PREFIX: ${{ inputs.tag_prefix }}
+    NEXT_BRANCH: ${{ inputs.next_branch }}
+    PUBLISH_CMD: ${{ inputs.publish_cmd }}
+    PREPARE_CMD: ${{ inputs.prepare_cmd }}
+    GITHUB_TOKEN: ${{ inputs.github_token }}
