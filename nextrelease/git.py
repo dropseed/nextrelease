@@ -77,9 +77,13 @@ def get_current_branch():
 
 
 def get_commits(from_ref, to_ref):
+    if from_ref or to_ref:
+        revisions = f"{from_ref}..{to_ref}"
+    else:
+        revisions = ""
     return (
         # -- separates revisions from paths
-        check_output(["git", "log", "--oneline", f"{from_ref}..{to_ref}", "--"])
+        check_output(["git", "log", "--oneline", revisions, "--"])
         .strip()
         .decode("utf-8")
         .splitlines()
