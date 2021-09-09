@@ -113,7 +113,7 @@ def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
 
     last_tag = git.get_last_tag()
     commits_since_last_tag = git.get_commits(
-        last_tag, f"origin/{gh_action.default_branch}"
+        last_tag or "", f"origin/{gh_action.default_branch}"
     )
 
     print(f"Commits since last tag: {commits_since_last_tag}")
