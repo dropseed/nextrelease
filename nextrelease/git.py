@@ -76,7 +76,7 @@ def get_current_branch():
         return None
 
 
-def get_commits(from_ref, to_ref):
+def get_commits(from_ref="", to_ref=""):
     if from_ref or to_ref:
         revisions = f"{from_ref}..{to_ref}"
     else:
