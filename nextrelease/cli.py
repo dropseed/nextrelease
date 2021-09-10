@@ -111,7 +111,7 @@ def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
         )
         return
 
-    last_tag = git.get_last_tag()
+    last_tag = git.get_last_semver_tag(tag_prefix=tag_prefix)
     if last_tag:
         commits_since_last_tag = git.get_commits(
             last_tag, f"origin/{gh_action.default_branch}"
