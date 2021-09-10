@@ -1,4 +1,4 @@
 #!/bin/sh -e
 poetry run black . --check --exclude "/(snapshots|\.venv|\.git|\.venv)/"
 ./scripts/test
-poetry run python -m nextrelease --help
+./scripts/docker
