@@ -1,5 +1,15 @@
 # nextrelease
 
+**One-click release publishing by merging the nextrelease PR.**
+
+When there are unreleased commits on your repo,
+nextrelease will open a PR to let you know.
+Use labels to decide what kind of release to make (major/minor/patch/prerelease) and
+the workflow will automatically update the title of the PR and replace any version strings in your files.
+Merge the PR and it will tag that merged commit, publish your release, and create a GitHub release for you.
+
+Notes:
+
 - If you haven't tagged/released anything yet, any version strings in your files should be "0.0.0".
 
 ```yml

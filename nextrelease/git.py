@@ -1,5 +1,7 @@
 from subprocess import check_output, check_call, CalledProcessError
 
+import semver
+
 from .settings import RELEASE_COMMIT_MSG_PREFIX, GIT_AUTHOR_NAME, GIT_AUTHOR_EMAIL
 
 
@@ -54,15 +56,23 @@ def empty_commit():
     )
 
 
-def get_last_tag():
-    try:
-        return (
-            check_output(["git", "describe", "--abbrev=0", "--tags"])
-            .strip()
-            .decode("utf-8")
-        )
-    except CalledProcessError:
-        return None
+def get_last_semver_tag(tag_prefix="v"):
+    tags = check_output(["git", "tag"]).strip().decode("utf-8").splitlines()
+    highest_tag = None
+    highest_semver = semver.VersionInfo.parse("0.0.0")
+
+    for tag in tags:
+        if not tag.startswith(tag_prefix):
+            continue
+
+        tag_without_prefix = tag[len(tag_prefix) :]
+        if semver.VersionInfo.isvalid(tag_without_prefix):
+            semver_version = semver.VersionInfo.parse(tag_without_prefix)
+            if semver_version > highest_semver:
+                highest_semver = semver_version
+                highest_tag = tag
+
+    return highest_tag
 
 
 def get_current_branch():
