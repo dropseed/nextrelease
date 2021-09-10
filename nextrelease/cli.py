@@ -9,12 +9,10 @@ from . import git
 from .api import APISession
 from .pullrequest import PullRequest
 from .settings import GITHUB_LABELS
-from . import __version__
 
 
 cls_client.set_project_key("cls_pk_9HBrOiOyH1rHmfTsXcPPFT1G")
 cls_client.set_project_slug("nextrelease")
-cls_client.set_version(__version__)
 cls_client.set_noninteractive_tracking_enabled(True)
 
 
@@ -68,7 +66,6 @@ def ensure_labels_exist(requests_session, repo_full_name):
 
 
 @click.group()
-@click.version_option(__version__)
 def cli():
     pass
 
