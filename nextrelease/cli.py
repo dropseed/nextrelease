@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 import semver
@@ -71,7 +72,7 @@ def cli():
 
 
 @cli.command()
-@click.option("--tag-prefix", default="v", show_default=True, envvar="TAG_PREFIX")
+@click.option("--tag-prefix", default="v", show_default=True)
 @click.option(
     "--api-url",
     envvar="GITHUB_API_URL",
@@ -85,6 +86,11 @@ def cli():
 @click.option("--prepare-cmd", envvar="PREPARE_CMD")
 @cls_client.track_command(include_kwargs=["tag_prefix", "next_branch"])
 def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
+
+    if "TAG_PREFIX" in os.environ:
+        # This way it can be an empty string, which isn't possible with click envvar
+        tag_prefix = os.environ["TAG_PREFIX"]
+
     print("tag_prefix:", tag_prefix)
     print("api_url:", api_url)
     print("next_branch:", next_branch)
