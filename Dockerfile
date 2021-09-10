@@ -5,6 +5,6 @@ RUN pip install -U pip && pip install -r /docker_requirements.txt
 
 COPY nextrelease /nextrelease
 
-RUN echo '#!/bin/sh -ex\ncd /\npython -m nextrelease ci' > /entrypoint.sh && chmod +x /entrypoint.sh
+RUN echo '#!/bin/sh -ex\nPYTHONPATH=/\npython -m nextrelease ci' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
