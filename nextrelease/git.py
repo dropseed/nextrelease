@@ -58,17 +58,21 @@ def empty_commit():
 
 def get_last_semver_tag(tag_prefix="v"):
     tags = check_output(["git", "tag"]).strip().decode("utf-8").splitlines()
-    tags_with_prefix = [
-        tag[len(tag_prefix) :] for tag in tags if tag.startswith(tag_prefix)
-    ]
-    semver_tags = [
-        semver.VersionInfo.parse(tag)
-        for tag in tags_with_prefix
-        if semver.VersionInfo.isvalid(tag)
-    ]
-    if semver_tags:
-        return max(semver_tags)
-    return None
+    highest_tag = None
+    highest_semver = semver.VersionInfo.parse("0.0.0")
+
+    for tag in tags:
+        if not tag.startswith(tag_prefix):
+            continue
+
+        tag_without_prefix = tag[len(tag_prefix) :]
+        if semver.VersionInfo.isvalid(tag_without_prefix):
+            semver_version = semver.VersionInfo.parse(tag_without_prefix)
+            if semver_version > highest_semver:
+                highest_semver = semver_version
+                highest_tag = tag
+
+    return highest_tag
 
 
 def get_current_branch():
