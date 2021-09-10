@@ -1,4 +1,4 @@
 #!/bin/sh -ex
 poetry export -o docker_requirements.txt
-docker build -t nextrelease .
+docker build --platform x86_64 -t nextrelease .
 docker run -it nextrelease $@

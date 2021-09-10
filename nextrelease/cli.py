@@ -2,12 +2,18 @@ import subprocess
 
 import semver
 import click
+import cls_client
 
 from .github import GitHubAction
 from . import git
 from .api import APISession
 from .pullrequest import PullRequest
 from .settings import GITHUB_LABELS
+
+
+cls_client.set_project_key("cls_pk_9HBrOiOyH1rHmfTsXcPPFT1G")
+cls_client.set_project_slug("nextrelease")
+cls_client.set_noninteractive_tracking_enabled(True)
 
 
 def release_commit(requests_session, repo_full_name, tag_prefix, publish_cmd):
@@ -77,6 +83,7 @@ def cli():
 )
 @click.option("--publish-cmd", envvar="PUBLISH_CMD")
 @click.option("--prepare-cmd", envvar="PREPARE_CMD")
+@cls_client.track_command(include_kwargs=["tag_prefix", "next_branch"])
 def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
     print("tag_prefix:", tag_prefix)
     print("api_url:", api_url)
