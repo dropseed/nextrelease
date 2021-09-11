@@ -2,15 +2,22 @@
 
 **One-click release publishing by merging the nextrelease PR.**
 
-When there are unreleased commits on your repo,
-nextrelease will open a PR to let you know.
-Use labels to decide what kind of release to make (major/minor/patch/prerelease) and
-the workflow will automatically update the title of the PR and replace any version strings in your files.
-Merge the PR and it will tag that merged commit, publish your release, and create a GitHub release for you.
+Here's what it does:
+- opens a release PR when there are unreleased commits
+- lists out the commits that would be released
+- **\<you choose a semver label\>**
+- renames PR with the semver version
+- updates version strings in files (or other "prep" commands)
+- **\<you merge the PR\>**
+- creates git tag on the merged commit
+- publishes the package (or other "publish" commands)
+- creates a GitHub Release
 
-Notes:
+![nextrelease example PR](https://user-images.githubusercontent.com/649496/132930548-537e53ff-e7bc-4e05-8f65-cf03b8cf33e0.png)
 
-- If you haven't tagged/released anything yet, any version strings in your files should be "0.0.0".
+## GitHub Action
+
+Save this as `.github/workflows/nextrelease.yml` and tweak as needed:
 
 ```yml
 name: nextrelease
@@ -40,5 +47,7 @@ jobs:
         next_branch: nextrelease  # default
 ```
 
-You could also run this on a `schedule` instead of every commit to main/master,
-but you run the risk of creating a release that doesn't factor in the latest commits.
+Notes:
+
+- If you haven't tagged/released anything yet, any version strings in your files should be "0.0.0".
+- You could also run this on a `schedule` instead of every commit to main/master, but you run the risk of creating a release that doesn't factor in the latest commits.
