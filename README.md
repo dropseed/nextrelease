@@ -1,6 +1,6 @@
 # nextrelease
 
-<img src="https://user-images.githubusercontent.com/649496/132932159-942f85cc-8f9e-4577-90f4-2315dded6d3f.png" width="200" height="200" align="right" />
+<img src="https://user-images.githubusercontent.com/649496/132932159-942f85cc-8f9e-4577-90f4-2315dded6d3f.png" width="150" height="150" align="right" />
 
 **One-click release publishing by merging the nextrelease PR.**
 
