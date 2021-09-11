@@ -50,4 +50,6 @@ jobs:
 Notes:
 
 - If you haven't tagged/released anything yet, any version strings in your files should be "0.0.0".
-- You could also run this on a `schedule` instead of every commit to main/master, but you run the risk of creating a release that doesn't factor in the latest commits.
+- You could also run this on a `schedule` instead of every commit to main/master, but the list of commits you see in the PR could be outdated.
+- You can trigger the tagging/publishing by pushing a commit titled "Release version <version>" manually. Just don't forget to do any pre-tagging steps like update your package.json, etc.
+- Regular merge commits (i.e. not squash or rebase) haven't been tested. I'd strongly recommend squash commits anyway as it will make the history much simpler.
