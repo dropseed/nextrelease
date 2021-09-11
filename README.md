@@ -3,14 +3,14 @@
 **One-click release publishing by merging the nextrelease PR.**
 
 Here's what it does:
-- opens a release PR when there are unreleased commits
+- opens a release PR when there are unreleased commits ("Release version \<next\>")
 - lists out the commits that would be released
-- **\<you choose a semver label\>**
-- renames PR with the semver version
+- **\<you choose a semver label\>** ("release: minor")
+- renames PR with the semver version ("Release version 1.1.0")
 - updates version strings in files (or other "prep" commands)
 - **\<you merge the PR\>**
 - creates git tag on the merged commit
-- publishes the package (or other "publish" commands)
+- publishes the package (can be any "publish" commands)
 - creates a GitHub Release
 
 ![nextrelease example PR](https://user-images.githubusercontent.com/649496/132930548-537e53ff-e7bc-4e05-8f65-cf03b8cf33e0.png)
