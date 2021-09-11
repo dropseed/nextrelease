@@ -1,5 +1,5 @@
 name: nextrelease
-description: Release the next version with an automated PR
+description: One-click release publishing by merging an automated PR.
 branding:
   icon: package
   color: white
@@ -14,7 +14,8 @@ inputs:
     description: A shell command to run after tagging a release
     default: ""
   prepare_cmd:
-    description: Filenames + patterns for updating the version number (ex. `filename="version = {version}"` where `{version}` is replaced automatically)
+    description: Any steps to run before releasing, like replacing version strings in package metadata files.
+    default: ""
   github_token:
     description: A GitHub token that can create and modify releases
     required: true
