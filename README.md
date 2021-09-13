@@ -55,3 +55,25 @@ Notes:
 - You could also run this on a `schedule` instead of every commit to main/master, but the list of commits you see in the PR could be outdated.
 - You can trigger the tagging/publishing by pushing a commit titled "Release version \<version\>" manually. Just don't forget to do any pre-tagging steps like update your package.json, etc.
 - Regular merge commits (i.e. not squash or rebase) haven't been tested. I'd strongly recommend squash commits anyway as it will make the history much simpler.
+
+## Example Workflows
+
+### PyPI using Poetry
+
+```yaml
+    - uses: dropseed/nextrelease@v1
+      with:
+        prepare_cmd: |
+          sed -i -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/g" pyproject.toml
+        publish_cmd: |
+          poetry publish --build
+```
+
+### GitHub Action
+
+```yaml
+    - uses: dropseed/nextrelease@v1
+      with:
+        publish_cmd: |
+          git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
+```
