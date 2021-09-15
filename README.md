@@ -49,7 +49,37 @@ jobs:
         next_branch: nextrelease  # default
 ```
 
-Notes:
+### Using `prepare_cmd`
+
+The `prepare_cmd` is typically used to update the version number (like in `package.json` or `pyproject.toml`).
+This is easy enough to do with sed, but you can use anything you like.
+**Any file modifications will be committed automatically** and you can use it for other automated tasks like updating changelogs.
+If you have a "release prep" step that you can't automate, you can always edit files manually in the release PR.
+
+#### Available env variables
+
+- `VERSION` - the semver name for this release
+- `LAST_VERSION` - the semver name for the previous release (or `0.0.0` if this will be the first release)
+- `NEXT_VERSION` - the semver name for this release (alias for `VERSION`)
+
+### Using `publish_cmd`
+
+The `publish_cmd` happens after the new version is tagged and the GitHub Release is created.
+This is typically used to push your release to a package manager (`npm publish`),
+but can also be used for moving tags or uploading assets to your GitHub Release.
+*This command will run from your master/main branch and doesn't expect any local file changes, so nothing will be committed automatically.*
+
+#### Available env variables
+
+- `TAG` - the full tag name associated with the release (ex. "v1.2.0-beta+unix")
+- `VERSION` - the semver name for this release (ex. "1.2.0-beta+unix")
+- `VERSION_MAJOR` - the semver major version for this release (ex. "1")
+- `VERSION_MINOR` - the semver minor version for this release (ex. "2")
+- `VERSION_PATCH` - the semver patch version for this releaes (ex. "0")
+- `VERSION_PRERELEASE` - the semver prerelease name for this release (ex. "beta")
+- `VERSION_BUILD` - the semver build name for this release (ex. "unix")
+
+### Other notes
 
 - If you haven't tagged/released anything yet, any version strings in your files should be "0.0.0".
 - You could also run this on a `schedule` instead of every commit to main/master, but the list of commits you see in the PR could be outdated.
