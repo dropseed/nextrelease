@@ -35,18 +35,18 @@ def release_commit(requests_session, repo_full_name, tag_prefix, publish_cmd):
 
     if publish_cmd:
         print(f"Running publish command:\n{publish_cmd}")
+        env = os.environ.copy()  # Include existing env variables
+        env["TAG"] = tag_name
+        env["VERSION"] = version
+        env["VERSION_MAJOR"] = str(version_semver.major)
+        env["VERSION_MINOR"] = str(version_semver.minor)
+        env["VERSION_PATCH"] = str(version_semver.patch)
+        env["VERSION_PRERELEASE"] = str(version_semver.prerelease)
+        env["VERSION_BUILD"] = str(version_semver.build)
         subprocess.check_call(
             publish_cmd,
             shell=True,
-            env={
-                "TAG": tag_name,
-                "VERSION": version,
-                "VERSION_MAJOR": str(version_semver.major),
-                "VERSION_MINOR": str(version_semver.minor),
-                "VERSION_PATCH": str(version_semver.patch),
-                "VERSION_PRERELEASE": str(version_semver.prerelease),
-                "VERSION_BUILD": str(version_semver.build),
-            },
+            env=env,
         )
 
 
@@ -171,14 +171,14 @@ def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
     )
 
     if pr.release_version and prepare_cmd:
+        env = os.environ.copy()  # Include existing env variables
+        env["VERSION"] = pr.release_version  # alias to next
+        env["LAST_VERSION"] = last_version or "0.0.0"
+        env["NEXT_VERSION"] = pr.release_version
         subprocess.check_call(
             prepare_cmd,
             shell=True,
-            env={
-                "VERSION": pr.release_version,  # alias to next
-                "LAST_VERSION": last_version or "0.0.0",
-                "NEXT_VERSION": pr.release_version,
-            },
+            env=env,
         )
         try:
             git.commit(".", f"Prepare release {pr.release_version}")
