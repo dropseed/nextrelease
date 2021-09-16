@@ -14,7 +14,7 @@ from .settings import GITHUB_LABELS
 
 cls_client.set_project_key("cls_pk_9HBrOiOyH1rHmfTsXcPPFT1G")
 cls_client.set_project_slug("nextrelease")
-cls_client.set_noninteractive_tracking_enabled(True)
+cls_client.set_ci_tracking_enabled(True)
 
 
 def release_commit(requests_session, repo_full_name, tag_prefix, publish_cmd):
