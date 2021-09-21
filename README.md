@@ -41,7 +41,7 @@ jobs:
     - uses: dropseed/nextrelease@v1
       with:
         prepare_cmd: |
-          sed -i -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/g" pyproject.toml
+          sed -i -e "s/version = \"[^\"]*\"$/version = \"$VERSION\"/g" pyproject.toml
         publish_cmd: |
           poetry publish --build
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.YOUR_PYPI_TOKEN }}
       with:
         prepare_cmd: |
-          sed -i -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/g" pyproject.toml
+          sed -i -e "s/version = \"[^\"]*\"$/version = \"$VERSION\"/g" pyproject.toml
         publish_cmd: |
           pip3 install -U pip poetry && poetry publish --build --no-interaction
 ```
