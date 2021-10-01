@@ -20,11 +20,15 @@ inputs:
     description: A GitHub token that can create and modify releases
     required: true
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    TAG_PREFIX: ${{ inputs.tag_prefix }}
-    NEXT_BRANCH: ${{ inputs.next_branch }}
-    PUBLISH_CMD: ${{ inputs.publish_cmd }}
-    PREPARE_CMD: ${{ inputs.prepare_cmd }}
-    GITHUB_TOKEN: ${{ inputs.github_token }}
+  using: composite
+  steps:
+    - run: pip3 install nextrelease==1.0.3
+      shell: bash
+    - run: nextrelease ci
+      shell: bash
+      env:
+        TAG_PREFIX: ${{ inputs.tag_prefix }}
+        NEXT_BRANCH: ${{ inputs.next_branch }}
+        PUBLISH_CMD: ${{ inputs.publish_cmd }}
+        PREPARE_CMD: ${{ inputs.prepare_cmd }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
