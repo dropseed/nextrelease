@@ -28,3 +28,4 @@ runs:
     PUBLISH_CMD: ${{ inputs.publish_cmd }}
     PREPARE_CMD: ${{ inputs.prepare_cmd }}
     GITHUB_TOKEN: ${{ inputs.github_token }}
+    PATH: $PATH  # pass the PATH through (find npm etc.) which doesn't happen otherwise
