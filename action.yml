@@ -23,8 +23,11 @@ runs:
   using: composite
   steps:
     - run: pip3 install -U pip poetry
+      shell: bash
     - run: poetry install
+      shell: bash
     - run: poetry run nextrelease ci
+      shell: bash
       env:
         TAG_PREFIX: ${{ inputs.tag_prefix }}
         NEXT_BRANCH: ${{ inputs.next_branch }}
