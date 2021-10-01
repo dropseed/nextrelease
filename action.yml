@@ -22,11 +22,9 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: pip3 install -U pip poetry
+    - run: pip3 install nextrelease==1.0.3
       shell: bash
-    - run: poetry install
-      shell: bash
-    - run: poetry run nextrelease ci
+    - run: nextrelease ci
       shell: bash
       env:
         TAG_PREFIX: ${{ inputs.tag_prefix }}

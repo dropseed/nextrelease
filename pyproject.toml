@@ -12,7 +12,7 @@ python = "^3.7"
 requests = "^2.24.0"
 click = "^7.1.2"
 semver = "^2.13.0"
-cls-client = "^1.2.0"
+cls-client = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 ipdb = "^0.13.3"
