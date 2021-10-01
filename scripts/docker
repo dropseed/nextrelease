@@ -1,4 +1,0 @@
-#!/bin/sh -ex
-poetry export -o docker_requirements.txt
-docker build -t nextrelease .
-docker run -it nextrelease $@
