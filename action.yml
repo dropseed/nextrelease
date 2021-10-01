@@ -22,7 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: pip3 install nextrelease==1.0.3
+    - run: pip3 install nextrelease==1.0.4
       shell: bash
     - run: nextrelease ci
       shell: bash
