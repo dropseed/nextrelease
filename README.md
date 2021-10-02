@@ -124,6 +124,6 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
         prepare_cmd: |
           npm version $NEXT_VERSION --no-git-tag-version --allow-same-version
         publish_cmd: |
-          npm publish --access public
+          npm publish
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
