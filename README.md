@@ -110,7 +110,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
           git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
 ```
 
-## npm
+### npm
 
 ```yaml
     - uses: actions/setup-node@v2
