@@ -109,3 +109,21 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
         publish_cmd: |
           git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
 ```
+
+## npm
+
+```yaml
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        registry-url: 'https://registry.npmjs.org'
+    - uses: dropseed/nextrelease@v1
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.YOUR_NPM_TOKEN }}
+      with:
+        prepare_cmd: |
+          npm version $NEXT_VERSION --no-git-tag-version --allow-same-version
+        publish_cmd: |
+          npm publish --access public
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+```
