@@ -44,7 +44,7 @@ def release_commit(requests_session, repo_full_name, tag_prefix, publish_cmd):
         env["VERSION_PRERELEASE"] = str(version_semver.prerelease)
         env["VERSION_BUILD"] = str(version_semver.build)
         subprocess.check_call(
-            publish_cmd,
+            "set -e\n" + publish_cmd,
             shell=True,
             env=env,
         )
@@ -176,7 +176,7 @@ def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
         env["LAST_VERSION"] = last_version or "0.0.0"
         env["NEXT_VERSION"] = pr.release_version
         subprocess.check_call(
-            prepare_cmd,
+            "set -e\n" + prepare_cmd,
             shell=True,
             env=env,
         )
