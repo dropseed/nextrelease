@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nextrelease"
-version = "1.0.4"
+version = "1.0.5"
 description = "A GitHub Action to perform releases via a PR"
 authors = ["Dave Gaeddert <dave.gaeddert@dropseed.io>"]
 
