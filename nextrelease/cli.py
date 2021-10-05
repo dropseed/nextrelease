@@ -11,6 +11,7 @@ from .api import APISession
 from .pullrequest import PullRequest
 from .settings import GITHUB_LABELS
 from . import __version__
+from nextrelease import github
 
 
 cls_client.set_project_key("cls_pk_9HBrOiOyH1rHmfTsXcPPFT1G")
@@ -19,21 +20,45 @@ cls_client.set_ci_tracking_enabled(True)
 cls_client.set_version(__version__)
 
 
-def release_commit(requests_session, repo_full_name, tag_prefix, publish_cmd):
+def release_commit(
+    requests_session,
+    repo_full_name,
+    tag_prefix,
+    publish_cmd,
+    github_release,
+    release_notes,
+):
     version = git.get_release_commit_version()
     print(f"Releasing version {version} from commit")
     version_semver = semver.VersionInfo.parse(version)
     tag_name = git.tag_commit(version=version, tag_prefix=tag_prefix)
 
-    print("Creating GitHub release")
-    response = requests_session.post(
-        f"/repos/{repo_full_name}/releases",
-        json={
-            "tag_name": tag_name,
-            "prerelease": bool(version_semver.prerelease),
-        },
-    )
-    response.raise_for_status()
+    if github_release == "skip":
+        print("Skipping GitHub release")
+    else:
+        if release_notes == "generate":
+            response = requests_session.post(
+                f"/repos/{repo_full_name}/releases/generate-notes",
+                json={
+                    "tag_name": tag_name,
+                    "target_commitish": git.get_previous_commit_sha()  # so we don't include the release PR,
+                    # "previous_tag_name": "",
+                },
+            )
+            response.raise_for_status()
+            release_notes = response.json()["body"]
+
+        print("Creating GitHub release")
+        response = requests_session.post(
+            f"/repos/{repo_full_name}/releases",
+            json={
+                "tag_name": tag_name,
+                "prerelease": bool(version_semver.prerelease),
+                "body": release_notes,
+                "draft": github_release == "draft",
+            },
+        )
+        response.raise_for_status()
 
     if publish_cmd:
         print(f"Running publish command:\n{publish_cmd}")
@@ -87,14 +112,37 @@ def cli():
 )
 @click.option("--publish-cmd", envvar="PUBLISH_CMD")
 @click.option("--prepare-cmd", envvar="PREPARE_CMD")
+@click.option(
+    "--github-release",
+    default="publish",
+    type=click.Choice(["publish", "draft", "skip"]),
+    envvar="GITHUB_RELEASE",
+)
+@click.option(
+    "--release-notes",
+    default="",
+    type=click.Choice(["", "generate"]),
+    envvar="RELEASE_NOTES",
+)
 @cls_client.track_command(include_kwargs=["tag_prefix", "next_branch"])
-def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
+def ci(
+    tag_prefix,
+    api_url,
+    token,
+    next_branch,
+    publish_cmd,
+    prepare_cmd,
+    github_release,
+    release_notes,
+):
 
     if "TAG_PREFIX" in os.environ:
         # This way it can be an empty string, which isn't possible with click envvar
         tag_prefix = os.environ["TAG_PREFIX"]
 
     print("tag_prefix:", tag_prefix)
+    print("github_release:", github_release)
+    print("release_notes:", release_notes)
     print("api_url:", api_url)
     print("next_branch:", next_branch)
     print("publish_cmd:", publish_cmd)
@@ -124,6 +172,8 @@ def ci(tag_prefix, api_url, token, next_branch, publish_cmd, prepare_cmd):
             repo_full_name=gh_action.repo_full_name,
             tag_prefix=tag_prefix,
             publish_cmd=publish_cmd,
+            github_release=github_release,
+            release_notes=release_notes,
         )
         return
 

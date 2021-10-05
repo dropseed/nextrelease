@@ -47,6 +47,8 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         tag_prefix: v  # default
         next_branch: nextrelease  # default
+        github_release: publish  # or "draft", or "skip"
+        release_notes: ""  # or "generate" to use https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
 ```
 
 ### Using `prepare_cmd`
