@@ -47,6 +47,8 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         tag_prefix: v  # default
         next_branch: nextrelease  # default
+        github_release: publish  # or "draft", or "skip"
+        release_notes: ""  # or "generate" to use https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
 ```
 
 ### Using `prepare_cmd`
@@ -110,7 +112,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
           git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
 ```
 
-## npm
+### npm
 
 ```yaml
     - uses: actions/setup-node@v2
@@ -124,6 +126,6 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
         prepare_cmd: |
           npm version $NEXT_VERSION --no-git-tag-version --allow-same-version
         publish_cmd: |
-          npm publish --access public
+          npm publish
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```

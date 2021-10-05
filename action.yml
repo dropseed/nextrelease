@@ -19,10 +19,16 @@ inputs:
   github_token:
     description: A GitHub token that can create and modify releases
     required: true
+  github_release:
+    description: Should be "publish" to create and publish a GitHub Release, "draft" for a draft release that can be published manually, or "skip" for no release.
+    default: publish
+  release_notes:
+    description: Use "generate" to ask GitHub to generate the release notes automatically (using https://docs.github.com/en/rest/reference/repos#generate-release-notes-content-for-a-release).
+    default: ""
 runs:
   using: composite
   steps:
-    - run: pip3 install nextrelease==1.1.0
+    - run: pip3 install $GITHUB_ACTION_PATH
       shell: bash
     - run: nextrelease ci
       shell: bash
@@ -32,3 +38,5 @@ runs:
         PUBLISH_CMD: ${{ inputs.publish_cmd }}
         PREPARE_CMD: ${{ inputs.prepare_cmd }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
+        GITHUB_RELEASE: ${{ inputs.github_release }}
+        RELEASE_NOTES: ${{ inputs.release_notes }}
