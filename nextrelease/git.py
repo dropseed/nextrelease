@@ -18,6 +18,10 @@ def get_current_commit_message():
     return check_output(["git", "log", "-1", "--pretty=%B"]).strip().decode("utf-8")
 
 
+def get_previous_commit_sha():
+    return check_output(["git", "rev-parse", "HEAD^1"]).strip().decode("utf-8")
+
+
 def tag_commit(version, tag_prefix="v"):
     version_with_prefix = tag_prefix + version
     check_call(["git", "tag", "-a", version_with_prefix, "-m", version_with_prefix])
