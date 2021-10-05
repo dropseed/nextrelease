@@ -22,3 +22,4 @@ jobs:
         publish_cmd: |
           git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        release_notes: generate
