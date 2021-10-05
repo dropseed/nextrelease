@@ -22,7 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: pip3 install nextrelease==1.0.5
+    - run: pip3 install $GITHUB_ACTION_PATH
       shell: bash
     - run: nextrelease ci
       shell: bash

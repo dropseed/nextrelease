@@ -14,14 +14,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0  # all branches and tags
-    - uses: dropseed/nextrelease@v1
-      env:
-        POETRY_PYPI_TOKEN_PYPI: ${{ secrets.DROPSEED_PYPI_TOKEN }}
+    - uses: dropseed/nextrelease@master
       with:
         prepare_cmd: |
           sed -i -e "s/version = \"[^\"]*\"/version = \"$VERSION\"/g" pyproject.toml
           sed -i -e "s/nextrelease==.*/nextrelease==$VERSION/g" action.yml
         publish_cmd: |
-          pip3 install -U pip poetry && poetry publish --build --no-interaction
           git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
         github_token: ${{ secrets.GITHUB_TOKEN }}
