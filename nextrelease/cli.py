@@ -11,7 +11,6 @@ from .api import APISession
 from .pullrequest import PullRequest
 from .settings import GITHUB_LABELS
 from . import __version__
-from nextrelease import github
 
 
 cls_client.set_project_key("cls_pk_9HBrOiOyH1rHmfTsXcPPFT1G")
