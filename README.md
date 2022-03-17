@@ -35,10 +35,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' && github.head_ref == 'nextrelease' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0  # all branches and tags
-    - uses: dropseed/nextrelease@v1
+    - uses: dropseed/nextrelease@v2
       with:
         prepare_cmd: |
           sed -i -e "s/version = \"[^\"]*\"$/version = \"$VERSION\"/g" pyproject.toml
@@ -93,7 +90,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
 ### PyPI using Poetry
 
 ```yaml
-    - uses: dropseed/nextrelease@v1
+    - uses: dropseed/nextrelease@v2
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.YOUR_PYPI_TOKEN }}
       with:
@@ -106,7 +103,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
 ### GitHub Action
 
 ```yaml
-    - uses: dropseed/nextrelease@v1
+    - uses: dropseed/nextrelease@v2
       with:
         publish_cmd: |
           git tag -a v$VERSION_MAJOR -m v$VERSION_MAJOR -f && git push origin v$VERSION_MAJOR -f
@@ -119,7 +116,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
       with:
         node-version: '16'
         registry-url: 'https://registry.npmjs.org'
-    - uses: dropseed/nextrelease@v1
+    - uses: dropseed/nextrelease@v2
       env:
         NODE_AUTH_TOKEN: ${{ secrets.YOUR_NPM_TOKEN }}
       with:
