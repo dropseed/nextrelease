@@ -126,3 +126,16 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
           npm publish
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+## Uploading GitHub release assets
+
+```yaml
+    - uses: dropseed/nextrelease@v2
+      with:
+        prepare_cmd: |
+          sed -i -e "s/version = \"[^\"]*\"$/version = \"$VERSION\"/g" pyproject.toml
+        publish_cmd: |
+          poetry build
+          gh release upload $TAG dist/*
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+```
