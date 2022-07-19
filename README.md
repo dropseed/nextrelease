@@ -127,7 +127,7 @@ but can also be used for moving tags or uploading assets to your GitHub Release.
         github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## Uploading GitHub release assets
+### Uploading GitHub release assets
 
 ```yaml
     - uses: dropseed/nextrelease@v2
